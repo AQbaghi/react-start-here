@@ -19,28 +19,43 @@ const AddOne = function({ start }){
 function App() {
 
   const [todos, setTodos] = useState([])
-  
+  let key = null
 
-  const addTodo = (e) => {
+  const addTodo = e => {
     e.preventDefault()
-    setTodos([...todos, e.target.childNodes[0].value])
+    //generate a random number for unique key
+    key = Math.floor((Math.random() * 1000) + 1)
+    
+    setTodos([...todos, {
+          text: e.target.childNodes[0].value,
+          id: key
+        }])
   }
 
+  const deleteTodo = e =>{
+      const filteredTodos = todos.filter(todo => e.target.id != todo.id )
+      console.log(filteredTodos)
+      setTodos(filteredTodos)
+ }
  
 
   return (
     <div className="App container">
+      
       <AddOne start={6} />
+
+
       <h1>To-Do App</h1>
       <form onSubmit={addTodo}>
         <input type="text" placeholder="Add Todo" />
       </form>
       <div className="to-dos">
         {todos[0]? todos.map(todo=>{
-          return <div key={Math.floor((Math.random() * 100) + 1)} className="to-do"><p>{todo}</p></div>
+          // add todo
+          return <div key={todo.id} id={todo.id} className="to-do" onClick={deleteTodo}>{todo.text}</div>
         }) : ""}
-       
       </div>
+
     </div>
   );
 }
