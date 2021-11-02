@@ -34,7 +34,6 @@ function App() {
 
   const deleteTodo = e =>{
       const filteredTodos = todos.filter(todo => e.target.id != todo.id )
-      console.log(filteredTodos)
       setTodos(filteredTodos)
  }
  
@@ -50,10 +49,12 @@ function App() {
         <input type="text" placeholder="Add Todo" />
       </form>
       <div className="to-dos">
-        {todos[0]? todos.map(todo=>{
+        {todos.map(todo=>{
           // add todo
-          return <div key={todo.id} id={todo.id} className="to-do" onClick={deleteTodo}>{todo.text}</div>
-        }) : ""}
+          if(todo.text){
+            return <div key={todo.id} id={todo.id} className="to-do" onClick={deleteTodo}>{todo.text}</div> 
+          }
+        })}
       </div>
 
     </div>
